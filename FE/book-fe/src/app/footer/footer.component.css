@@ -1,0 +1,17 @@
+.footer{
+  background: url("src/assets/bg.png") 50% 0 rgba(0,0,0,0);
+  background-size: cover;
+  width: 100%;
+  margin: 0;
+  padding: 15px 100px;
+  font: 12px "Arial",Arial,Helvetica,sans-serif;
+}
+table{
+  color: #0f5731;
+  font-size: 16px;
+}
+.footer-contact{
+  background: url("src/assets/bg-nav.png");
+  color: white;
+  display: flex;
+}

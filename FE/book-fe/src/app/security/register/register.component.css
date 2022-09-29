@@ -1,0 +1,15 @@
+.body{
+  background: url("src/assets/bg_body.jpg") no-repeat;
+  background-size: cover;
+  padding-top: 20px;
+}
+.content{
+  background: url("src/assets/bg.png") repeat scroll;
+  width: 70%;
+  margin: 0;
+}
+h3{
+  color: #524643;
+  font-size: 18px;
+  text-transform: uppercase;
+}

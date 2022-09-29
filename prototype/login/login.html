@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .body{
+            background: url("/img/assets/bg_body.jpg") no-repeat;
+            background-size: cover;
+            padding-top: 20px;
+        }
+        .content{
+            background: url("/img/assets/bg.png") repeat scroll;
+            width: 70%;
+            margin: 0;
+        }
+        h3{
+            color: #524643;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+        .border{
+            border: 1px solid black;
+        }
+
+    </style>
+</head>
+<body>
+<div class="body d-flex justify-content-center" style="padding: 30px 0">
+    <div class="content" style="padding: 30px 20px ">
+        <form>
+            <h3>Đăng Nhập</h3>
+            <div class="row pt-3">
+                <label>Email</label>
+                <div class="col-4">
+                    <input class="form-control">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <label>Mật khẩu</label>
+                <div class="col-4">
+                    <input class="form-control">
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-4">
+                    <input type="checkbox"><span>   Ghi nhớ</span>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-4">
+                    <button class="btn btn-success">Đăng nhập</button>
+                </div>
+            </div>
+            <div class="row pt-3">
+                <div class="col-12">
+                    <span>Chưa có tài khoản? Hãy </span>
+                    <button class="btn btn-success">Đăng ký</button>
+                    <span> hoặc </span>
+                    <button class="btn btn-primary">Đăng ký qua Facebook</button>
+                </div>
+            </div>
+        </form>
+        <div class="row pt-3 border">
+            <form class="row pt-3 border">
+                <h3>Quên mật khẩu</h3>
+                <div class="row pt-3">
+                    <label>Email</label>
+                    <div class="col-4">
+                        <input class="form-control">
+                    </div>
+                </div>
+                <div class="row pt-3">
+                    <div class="col-4">
+                        <button class="btn btn-success">Tìm lại mật khẩu</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

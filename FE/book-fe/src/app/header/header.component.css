@@ -1,0 +1,78 @@
+.color-green {
+  color: #476600;
+}
+.header{
+  background: url("src/assets/bg.png") repeat-x scroll 50% 0 rgba(0,0,0,0);
+  width: 100%;
+  margin: 0;
+}
+.padding-100{
+  padding: 0 100px;
+}
+.login-header{
+  font-weight: 500;
+  background: white;
+  opacity: 0.6;
+}
+.card{
+  background: url("src/assets/cart.png") no-repeat scroll left center rgba(0,0,0,0);
+  color: #000;
+  height: 55px;
+  position: absolute;
+  right: 123px;
+  text-indent: -500em;
+  text-transform: uppercase;
+  top: 37px;
+  width: 55px;
+  cursor: pointer;
+  border: none;
+}
+.nav{
+  color: white;
+  font: 12px "Arial",Arial,Helvetica,sans-serif;
+  background: url("src/assets/bg-nav.png") scroll left center rgba(0,0,0,0);
+  margin: 0;
+  list-style-type: none;
+  font-size: 14px;
+}
+.uls{
+  list-style-type: none;
+  text-align: justify;
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+}
+.uls>li{
+  position: relative;
+  width: 25%;
+  float: left;
+  text-align: center;
+  list-style-type: none;
+}
+li:hover ul{
+  display: block;
+}
+li:hover{
+  background: #033801;
+}
+
+.sup-nav{
+  background: #033801;
+  display: none;
+  left: 0;
+  position: absolute;
+  top: 40px;
+  z-index: 9999;
+  width: 100%;
+  padding: 0;
+}
+.sup-nav > li{
+  list-style-type: none;
+  text-align: left;
+  padding: 0 20px;
+}
+.sup-nav > li:hover{
+  margin: 0;
+  background: url("src/assets/bg-nav.png") scroll left center rgba(0,0,0,0);
+}
+
