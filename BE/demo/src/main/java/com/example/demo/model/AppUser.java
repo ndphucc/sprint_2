@@ -2,27 +2,38 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDate;
 import java.util.List;
+
 @Entity
-public class User {
+public class AppUser {
     @Id
     private int id;
+
+    private String userName;
     private String email;
     private String password;
     private String name;
     private LocalDate birthDay;
 
-    @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_name"),
-            inverseJoinColumns = @JoinColumn(name = "id"))
-    private List<Role> roles;
+    @OneToMany(mappedBy = "appRole")
+    private List<UserRole> userRoles;
     @OneToMany(mappedBy = "user")
     @JsonIgnore
     private List<Bill> bills;
-    public User() {
+
+    public AppUser() {
+    }
+
+    public List<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 
     public List<Bill> getBills() {
@@ -65,6 +76,14 @@ public class User {
         this.name = name;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public LocalDate getBirthDay() {
         return birthDay;
     }
@@ -73,11 +92,5 @@ public class User {
         this.birthDay = birthDay;
     }
 
-    public List<Role> getRoles() {
-        return roles;
-    }
 
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
 }

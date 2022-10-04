@@ -1,0 +1,19 @@
+.body{
+  background: url("src/assets/bg_body.jpg") no-repeat;
+  background-size: cover;
+  padding-top: 20px;
+}
+.content{
+  background: url("src/assets/bg.png") repeat scroll;
+  width: 70%;
+  margin: 0;
+  padding: 20px;
+}
+.input-amount{
+  color: red;
+  border: 1px solid #999;
+  font-size: 16px;
+  height: 45px;
+  text-align: center;
+  width: 35px;
+}

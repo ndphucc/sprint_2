@@ -2,18 +2,23 @@ package com.example.demo.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import java.util.Set;
+import javax.persistence.OneToMany;
+import java.util.List;
+
 @Entity
-public class Role {
+public class AppRole {
     @Id
     private int id;
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @OneToMany(mappedBy = "appRole")
+    private List<UserRole> userRoles;
 
-    public Role() {
+    public AppRole() {
+    }
+
+    public AppRole(int id) {
+        this.id = id;
     }
 
     public int getId() {
@@ -32,11 +37,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
+    public List<UserRole> getUserRoles() {
+        return userRoles;
     }
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
+    public void setUserRoles(List<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }
