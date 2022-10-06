@@ -1,35 +1,43 @@
 <div class="body d-flex justify-content-center" style="padding: 30px 0">
     <div class="content" style="padding: 30px 20px ">
-      <form>
+      <form [formGroup]="formLogin" (submit)="save()">
         <h3>Đăng ký</h3>
+        <div class="row pt-3">
+          <label>Tên đăng nhập</label>
+          <div class="col-4">
+            <input formControlName="username" class="form-control">
+          </div>
+        </div>
+        <ng-container formGroupName="password">
+          <div class="row pt-3" >
+            <label>Mật khẩu</label>
+            <div class="col-4">
+              <input formControlName="password" type="password" class="form-control">
+            </div>
+          </div>
+          <div class="row pt-3">
+            <label>Xác nhận mật khẩu</label>
+            <div class="col-4">
+              <input formControlName="confirmPassword" type="password" class="form-control">
+            </div>
+          </div>
+        </ng-container>
+        <div class="row pt-3">
+          <label>Tên</label>
+          <div class="col-4">
+            <input formControlName="name" class="form-control">
+          </div>
+        </div>
         <div class="row pt-3">
           <label>Email</label>
           <div class="col-4">
-            <input class="form-control">
-          </div>
-        </div>
-        <div class="row pt-3">
-          <label>Mật khẩu</label>
-          <div class="col-4">
-            <input class="form-control">
-          </div>
-        </div>
-        <div class="row pt-3">
-          <label>Xác nhận mật khẩu</label>
-          <div class="col-4">
-            <input class="form-control">
-          </div>
-        </div>
-        <div class="row pt-3">
-          <label>Tên hiển thị</label>
-          <div class="col-4">
-            <input class="form-control">
+            <input formControlName="email" class="form-control">
           </div>
         </div>
         <div class="row pt-3">
           <label>Sinh nhật</label>
           <div class="col-4">
-            <input class="form-control" type="date">
+            <input formControlName="birthDay" class="form-control" type="date">
           </div>
         </div>
         <div class="row pt-3">
@@ -40,7 +48,7 @@
         <div class="row pt-3">
           <div class="col-12">
             <span>Bạn đã có tài khoản? Hãy </span>
-            <button class="btn btn-success">Đăng nhập</button>
+            <button class="btn btn-success" [routerLink]="['/login']">Đăng nhập</button>
             <span> hoặc </span>
             <button class="btn btn-primary">Đăng nhập qua Facebook</button>
           </div>

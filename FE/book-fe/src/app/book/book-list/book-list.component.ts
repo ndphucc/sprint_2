@@ -27,15 +27,21 @@ export class BookListComponent implements OnInit {
       this.bookService.getAll(+paramMap.get('id'), paramMap.get('search')).subscribe(value => {
         this.books = value.content;
       });
-      this.bookTypeService.findById(+paramMap.get('id')).subscribe(value => {
-        this.bookType = value;
-      });
+      if (+paramMap.get('id') > 0) {
+        this.bookTypeService.findById(+paramMap.get('id')).subscribe(value => {
+          this.bookType = value;
+        });
+      } else {
+        this.bookType = {
+          name: 'Kết quả tìm kiếm'
+        };
+      }
     });
   }
 
   addCard(item: Book) {
     this.cartService.addCard(item, 1);
-    this.cart = JSON.parse(localStorage.getItem('cart'));
+    this.showCard();
   }
   showCard() {
     this.cart = JSON.parse(localStorage.getItem('cart'));
@@ -65,6 +71,7 @@ export class BookListComponent implements OnInit {
   }
 
   incCart(item: Book) {
+    console.log(1);
     this.cartService.addCard(item, 1);
     this.showCard();
   }

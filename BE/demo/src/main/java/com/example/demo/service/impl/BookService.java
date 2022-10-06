@@ -12,8 +12,14 @@ import org.springframework.stereotype.Service;
 public class BookService implements IBookService {
     @Autowired
     private IBookRepository bookRepository;
+
     @Override
     public Page<Book> findAll(Pageable pageable, int idType, String search) {
-        return bookRepository.findAll(idType,search,pageable);
+        return bookRepository.findAll(idType, "%" + search + "%", pageable);
+    }
+
+    @Override
+    public Book findById(Integer id) {
+        return bookRepository.findById(id).get();
     }
 }

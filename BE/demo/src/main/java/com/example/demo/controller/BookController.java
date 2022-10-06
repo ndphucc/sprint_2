@@ -16,8 +16,17 @@ import org.springframework.web.bind.annotation.*;
 public class BookController {
     @Autowired
     private IBookService iBookService;
+
     @GetMapping("list")
-    public ResponseEntity<Page<Book>> getAll(@PageableDefault(15) Pageable pageable, @RequestParam Integer idType, @RequestParam String search){
-        return new ResponseEntity<>(iBookService.findAll(pageable,idType,search), HttpStatus.OK);
+    public ResponseEntity<Page<Book>> getAll(@PageableDefault(15) Pageable pageable, @RequestParam(defaultValue = "0") Integer idType, @RequestParam(defaultValue = "#") String search) {
+        if (idType == 0 && search.equals("null")) {
+            search = "";
+        }
+        return new ResponseEntity<>(iBookService.findAll(pageable, idType, search), HttpStatus.OK);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<Book> findById(@PathVariable Integer id) {
+        return new ResponseEntity<>(iBookService.findById(id), HttpStatus.OK);
     }
 }

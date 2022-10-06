@@ -9,10 +9,16 @@
         </tr>
       </table>
       <table class="col-2 text-center">
-        <tr class="color-green">
-          <td style="border-right: #476600 solid">Đăng ký</td>
-          <td>Đăng nhập</td>
-        </tr>
+        <ng-container *ngIf="user">
+          <tr class="color-green" *ngIf="!user.name">
+            <td style="border-right: #476600 solid" routerLink="/register">Đăng ký</td>
+            <td routerLink="/login">Đăng nhập</td>
+          </tr>
+          <tr class="color-green" *ngIf="user.name">
+            <td style="border-right: #476600 solid">{{user.name}}</td>
+            <td (click)="logout()">Thoát</td>
+          </tr>
+        </ng-container>
       </table>
     </div>
     <div class="row padding-100 d-flex align-items-end" style="height: 125px;padding-bottom: 10px">
@@ -20,24 +26,26 @@
         <img src="assets/logo.png">
       </div>
       <div class="col-6">
-        <button (click)="showCard()" id="modalCard" class="modal-button btn btn-none" type="button"
-                data-bs-toggle="modal" data-bs-target="#exampleModal">
-          <div class="row card"></div>
-        </button>
-        <div class="row d-flex justify-content-end">
-          <div class="col-6">
-            <input type="password" class="form-control" id="inputPassword2" placeholder="Tìm kiếm">
-          </div>
-          <div class="col-1" style="padding: 0;margin: 0">
-            <button type="submit" class="btn btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
-                   viewBox="0 0 16 16">
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-              </svg>
-            </button>
-          </div>
-        </div>
+
+          <button (click)="showCard()" id="modalCard" class="modal-button btn btn-none" type="button"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <div class="row card"></div>
+          </button>
+        <form [formGroup]="formSearch" class="row d-flex justify-content-end" (submit)="search()">
+            <div class="col-6">
+              <input formControlName="search" type="text" class="form-control" id="inputPassword2"
+                     placeholder="Tìm kiếm">
+            </div>
+            <div class="col-1" style="padding: 0;margin: 0">
+              <button type="submit" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                     viewBox="0 0 16 16">
+                  <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                </svg>
+              </button>
+            </div>
+        </form>
       </div>
     </div>
   </div>
@@ -47,7 +55,7 @@
         <li (click)="changeComponent('')">TRANG CHỦ</li>
         <li>DANH MỤC SÁCH
           <ul class="sup-nav">
-            <li (click)="changeComponent('book/list/'+ item.id+'/#')" *ngFor="let item of bookTypes"
+            <li (click)="changeComponent('book/list/'+ item.id)" *ngFor="let item of bookTypes"
                 class="text-uppercase">{{item.name}}</li>
           </ul>
         </li>

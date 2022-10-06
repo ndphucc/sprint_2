@@ -6,4 +6,6 @@ import org.springframework.data.domain.Pageable;
 
 public interface IBookService {
     Page<Book> findAll(Pageable pageable, int idType, String search);
+
+    Book findById(Integer id);
 }

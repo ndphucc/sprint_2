@@ -5,6 +5,12 @@ import {Router} from '@angular/router';
 import {Cart} from '../model/cart';
 import {CartService} from '../service/cart.service';
 import {Book} from '../model/book';
+import {TokenStorageService} from '../service/token-storage.service';
+import {ShareService} from '../service/share.service';
+import {AuthService} from '../service/auth.service';
+import {User} from '../model/User';
+import {SecurityService} from '../service/security.service';
+import {FormControl, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +21,25 @@ export class HeaderComponent implements OnInit {
   bookTypes: BookType[] = [];
   cart: Cart[] = [];
   totalMoney = 0;
+  username = '';
+  role: string;
+  user: User = {};
+  formSearch = new FormGroup({
+    search: new FormControl()
+  });
 
   constructor(private bookTypeService: BookTypeService,
-              private router: Router, private cartService: CartService) {
+              private router: Router, private cartService: CartService,
+              private tokenStorageService: TokenStorageService,
+              private shareService: ShareService, private authService: AuthService,
+              private securityService: SecurityService) {
+    this.shareService.getClickEvent().subscribe(() => {
+      this.loadHeader();
+      console.log(this.username);
+      this.securityService.findByUser(this.username).subscribe(value => {
+        this.user = value;
+      });
+    });
   }
 
   ngOnInit(): void {
@@ -66,5 +88,25 @@ export class HeaderComponent implements OnInit {
   decCart(book: Book) {
     this.cartService.addCard(book, -1);
     this.showCard();
+  }
+
+  loadHeader(): void {
+    if (this.tokenStorageService.getToken()) {
+      this.role = this.tokenStorageService.getUser().roles[0];
+      this.username = this.tokenStorageService.getUser().username;
+    }
+  }
+
+  logout() {
+    this.authService.logout();
+    this.user = {};
+  }
+
+  search() {
+    if (this.formSearch.get('search').value == null || this.formSearch.get('search').value === '' + '') {
+      this.router.navigateByUrl('/book/list/0');
+    } else {
+      this.router.navigateByUrl('/book/list/0/' + this.formSearch.get('search').value);
+    }
   }
 }

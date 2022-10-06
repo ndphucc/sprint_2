@@ -15,6 +15,10 @@ import javax.transaction.Transactional;
 @Transactional
 public interface IUserRepository extends JpaRepository<AppUser, Integer> {
 
-  @Query(value = "select * from user a where a.name = :name", nativeQuery = true)
-  AppUser findAppUserByName(@Param("name") String username);
+    @Query(value = "select id from app_user a where a.username = :username", nativeQuery = true)
+    Integer findAppUserByUsername(@Param("username") String username);
+
+    @Query(value = "select * from app_user a where a.username = :name", nativeQuery = true)
+    AppUser findAppUserByName(@Param("name") String username);
+
 }

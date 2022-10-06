@@ -51,6 +51,6 @@ public class JwtUserDetailsService implements UserDetailsService {
                 grantList.add(authority);
             }
         }
-        return new User(appUser.getName(), appUser.getPassword(), grantList);
+        return new User(appUser.getUsername(), appUser.getPassword(), grantList);
     }
 }

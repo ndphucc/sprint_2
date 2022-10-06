@@ -35,10 +35,11 @@
   <div class="row">
     <div class="col-12" style="position: relative">
       <ng-container *ngFor="let temp of books,index as i">
-        <div *ngIf="i%5==0" class="row d-flex justify-content-between position-relative" style="padding: 2% 15%">
+        <div *ngIf="i%5==0" class="row d-flex justify-content-start position-relative" style="padding: 2% 10%">
           <ng-container *ngFor="let item of books,index as j">
-            <div *ngIf="j>=i&&j<i+5" class="col-2 d-flex justify-content-center book" style="position: relative">
-              <div><img [src]="item.img"></div>
+            <div  *ngIf="j>=i&&j<i+5"
+                 class="col-2 d-flex justify-content-center book" style="position: relative;margin: 0 18px">
+              <div><img [routerLink]="['/book/detail/'+item.id]" [src]="item.img" style="width: 160px;height: 230px"></div>
               <div class="popup">
                 <div class="name">{{item.name| uppercase}}</div>
                 <div class="content">
@@ -150,5 +151,4 @@
     </div>
   </div>
 </div>
-<!-- Modal: modalCart -->
 

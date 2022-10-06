@@ -4,4 +4,6 @@ import com.example.demo.model.AppUser;
 
 public interface IUserService {
     void save(AppUser user);
+
+    AppUser findByUsername(String username);
 }

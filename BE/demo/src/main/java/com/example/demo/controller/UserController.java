@@ -17,16 +17,23 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private IUserService iUserService;
+
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @PostMapping("create")
     public ResponseEntity<UserDto> create(@RequestBody UserDto userDto) {
-        AppUser user = null;
-        BeanUtils.copyProperties(userDto,user);
-
+        AppUser user = new AppUser();
+        BeanUtils.copyProperties(userDto, user);
+        user.setBirthDay(java.time.LocalDate.parse(userDto.getBirthDay()));
         user.setPassword(passwordEncoder().encode(user.getPassword()));
         iUserService.save(user);
         return new ResponseEntity<>(userDto, HttpStatus.CREATED);
+    }
+
+    @GetMapping("")
+    public ResponseEntity<AppUser> findByUsername(@RequestParam String username) {
+        return new ResponseEntity<>(iUserService.findByUsername(username), HttpStatus.OK);
     }
 }

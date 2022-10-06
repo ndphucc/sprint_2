@@ -10,10 +10,11 @@
   padding: 20px;
 }
 .input-amount{
+  background: white;
   color: red;
   border: 1px solid #999;
   font-size: 16px;
   height: 45px;
   text-align: center;
-  width: 35px;
+  width: 38px;
 }

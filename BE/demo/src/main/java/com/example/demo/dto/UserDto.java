@@ -2,26 +2,25 @@ package com.example.demo.dto;
 
 import com.example.demo.model.AppRole;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public class UserDto {
-    private String userName;
+    private String username;
     private String email;
     private String password;
     private String name;
-    private LocalDate birthDay;
+    private String birthDay;
     private List<AppRole> role;
 
     public UserDto() {
     }
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -48,11 +47,11 @@ public class UserDto {
         this.name = name;
     }
 
-    public LocalDate getBirthDay() {
+    public String getBirthDay() {
         return birthDay;
     }
 
-    public void setBirthDay(LocalDate birthDay) {
+    public void setBirthDay(String birthDay) {
         this.birthDay = birthDay;
     }
 

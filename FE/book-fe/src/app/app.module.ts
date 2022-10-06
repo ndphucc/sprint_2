@@ -9,6 +9,9 @@ import {SecurityModule} from './security/security.module';
 import {BookModule} from './book/book.module';
 import {HttpClientModule} from '@angular/common/http';
 import {BodyComponent} from './body/body.component';
+import {ToastrModule} from 'ngx-toastr';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ReactiveFormsModule} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,13 +20,16 @@ import {BodyComponent} from './body/body.component';
     FooterComponent,
     BodyComponent,
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    SecurityModule,
-    BookModule,
-    HttpClientModule
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        SecurityModule,
+        BookModule,
+        HttpClientModule,
+        ToastrModule.forRoot(),
+        BrowserAnimationsModule,
+        ReactiveFormsModule
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })
