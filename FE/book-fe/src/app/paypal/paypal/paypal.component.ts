@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {render} from 'creditcardpayments/creditCardPayments';
 import {CartService} from '../../service/cart.service';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {SecurityService} from '../../service/security.service';
 import {User} from '../../model/User';
@@ -13,8 +13,12 @@ import {User} from '../../model/User';
 })
 export class PaypalComponent implements OnInit {
   total = 0;
-  form: FormGroup;
-  user: User;
+  form: FormGroup = new FormGroup({
+    phone: new FormControl(),
+    address: new FormControl(),
+    note: new FormControl()
+  });
+  user: User = {};
 
   constructor(private cartService: CartService, private tokenService: TokenStorageService, private fb: FormBuilder,
               private securityService: SecurityService) {
@@ -22,7 +26,7 @@ export class PaypalComponent implements OnInit {
       {
         id: '#myPaypalButtons',
         currency: 'USD',
-        value: '100.00',
+        value: this.cartService.resultTotal() + '',
         onApprove: (detail) => {
           alert('transaction succesfull');
         }

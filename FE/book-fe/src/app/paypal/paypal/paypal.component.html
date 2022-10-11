@@ -12,41 +12,42 @@
       </div>
       <!--Body-->
       <div class="modal-body">
-        <form [formGroup]="form" (submit)="save()"></form>
-        <table cellpadding="10px">
-          <tr>
-            <th colspan="2">Thông tin Người mua</th>
-          </tr>
-          <tr>
-            <td>Họ và tên</td>
-            <td><input [value]="user.name" disabled type="text" class="form-control"></td>
-          </tr>
-          <tr>
-            <td>Số điện thoại</td>
-            <td><input type="text" formControlName="phone" class="form-control"></td>
-          </tr>
-          <tr>
-            <td>Email</td>
-            <td><input disabled [value]="user.email" type="text" class="form-control"></td>
-          </tr>
-          <tr>
-            <td>Ghi chú</td>
-            <td><textarea formControlName="note" class="form-control"></textarea></td>
-          </tr>
-          <tr>
-            <td>Địa chỉ</td>
-            <td><input type="text" formControlName="address" class="form-control"></td>
-          </tr>
-          <tr>
-            <td>Tổng tiền</td>
-            <td style="color: red">{{total | currency:' ' }}đ</td>
-          </tr>
-          <tr>
-            <td colspan="2">
-              <div id="myPaypalButtons"></div>
-            </td>
-          </tr>
-        </table>
+        <form [formGroup]="form" (submit)="save()">
+          <table cellpadding="10px">
+            <tr>
+              <th colspan="2">Thông tin Người mua</th>
+            </tr>
+            <tr>
+              <td>Họ và tên</td>
+              <td><input [value]="user.name" disabled type="text" class="form-control"></td>
+            </tr>
+            <tr>
+              <td>Số điện thoại</td>
+              <td><input type="text" formControlName="phone" class="form-control"></td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td><input disabled [value]="user.email" type="text" class="form-control"></td>
+            </tr>
+            <tr>
+              <td>Ghi chú</td>
+              <td><textarea formControlName="note" class="form-control"></textarea></td>
+            </tr>
+            <tr>
+              <td>Địa chỉ</td>
+              <td><input type="text" formControlName="address" class="form-control"></td>
+            </tr>
+            <tr>
+              <td>Tổng tiền</td>
+              <td style="color: red">{{total | currency:' ' }}đ</td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <div id="myPaypalButtons"></div>
+              </td>
+            </tr>
+          </table>
+        </form>
       </div>
     </div>
   </div>
