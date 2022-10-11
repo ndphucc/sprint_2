@@ -4,6 +4,7 @@ import {BookService} from '../../service/book.service';
 import {CartService} from '../../service/cart.service';
 import {Book} from '../../model/book';
 import {Cart} from '../../model/cart';
+import {TokenStorageService} from '../../service/token-storage.service';
 
 @Component({
   selector: 'app-book-detail',
@@ -16,7 +17,8 @@ export class BookDetailComponent implements OnInit {
   cart: Cart[] = [];
     totalMoney = 0;
 
-  constructor(private activateRouter: ActivatedRoute, private bookService: BookService, private cartService: CartService) {
+  constructor(private activateRouter: ActivatedRoute, private bookService: BookService, private cartService: CartService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
@@ -77,5 +79,10 @@ export class BookDetailComponent implements OnInit {
   addCart() {
     this.cartService.addCard(this.book, this.amount);
     this.showCard();
+  }
+  saveCart() {
+    if (this.tokenStorageService.getUser() !==  null) {
+      this.cartService.saveCart().subscribe();
+    }
   }
 }

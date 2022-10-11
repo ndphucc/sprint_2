@@ -13,10 +13,6 @@ export class SecurityService {
   constructor(private httpClient: HttpClient) {
   }
 
-  save(user: User): Observable<User> {
-    return this.httpClient.post<User>(this.API_URL + '/create', user);
-  }
-
   findByUser(username: string): Observable<User> {
     return this.httpClient.get<User>(this.API_URL + '?username=' + username);
   }

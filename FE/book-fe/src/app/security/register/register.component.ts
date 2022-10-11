@@ -1,7 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {User} from '../../model/User';
-import {SecurityService} from '../../service/security.service';
+import {AuthService} from '../../service/auth.service';
+import {TokenStorageService} from '../../service/token-storage.service';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ToastrService} from 'ngx-toastr';
+import {ShareService} from '../../service/share.service';
+import {CookieService} from 'ngx-cookie-service';
+import {CartService} from '../../service/cart.service';
 
 @Component({
   selector: 'app-register',
@@ -19,11 +25,22 @@ export class RegisterComponent implements OnInit {
     name: new FormControl(),
     birthDay: new FormControl(),
   });
+  private returnUrl: string;
 
-  constructor(private fb: FormBuilder, private securityService: SecurityService) {
+  constructor(private fb: FormBuilder,
+              private formBuild: FormBuilder,
+              private tokenStorageService: TokenStorageService,
+              private authService: AuthService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private toastr: ToastrService,
+              private shareService: ShareService,
+              private cookieService: CookieService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
+    this.returnUrl = this.route.snapshot.queryParams.returnUrl || '';
     this.formLogin = this.fb.group({
       email: [],
       username: [],
@@ -41,6 +58,15 @@ export class RegisterComponent implements OnInit {
     user = this.formLogin.value;
     user.password = this.formLogin.get('password').get('password').value;
     console.log(user);
-    this.securityService.save(user).subscribe();
+    this.authService.register(user).subscribe(data => {
+      this.tokenStorageService.saveTokenSession(data.token);
+      this.tokenStorageService.saveUserSession(data);
+      this.authService.isLoggedIn = true;
+      this.formLogin.reset();
+      this.router.navigateByUrl(this.returnUrl);
+      this.shareService.sendClickEvent();
+    }, err => {
+      this.authService.isLoggedIn = false;
+    });
   }
 }

@@ -12,6 +12,7 @@ import {BodyComponent} from './body/body.component';
 import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
+import {PaypalModule} from './paypal/paypal.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import {ReactiveFormsModule} from '@angular/forms';
         AppRoutingModule,
         SecurityModule,
         BookModule,
+        PaypalModule,
         HttpClientModule,
         ToastrModule.forRoot(),
         BrowserAnimationsModule,

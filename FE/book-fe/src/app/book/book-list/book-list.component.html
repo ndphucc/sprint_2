@@ -48,7 +48,7 @@
                     <li>Kích thước: {{item.size}}</li>
                     <li>Ngày phát hành: {{item.releaseDate}}</li>
                   </ul>
-                  <div class="price">{{item.price}}</div>
+                  <div class="price">{{item.price| currency:' '}}đ</div>
                   <div class="row d-flex justify-content-center">
                     <div class="col-10">
                       <button (click)="addCard(item)" data-bs-toggle="modal" data-bs-target="#listModal" id="modalShow" class="btn btn-success w-100">Thêm vào giỏ hàng</button>
@@ -72,11 +72,11 @@
   <div class="row pt-5">
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
-        <li class="page-item"><a class="page-link paging" href="#">Trang trước</a></li>
-        <li class="page-item"><a class="page-link paging" href="#">1</a></li>
-        <li class="page-item"><a class="page-link paging" href="#">2</a></li>
-        <li class="page-item"><a class="page-link paging" href="#">3</a></li>
-        <li class="page-item"><a class="page-link paging" href="#">Trang sau</a></li>
+        <li class="page-item" *ngIf="previous" (click)="previousPage()"><a class="page-link paging">Trang trước</a></li>
+        <li class="page-item" *ngIf="previous" (click)="previousPage()"><a class="page-link paging">{{page}}</a></li>
+        <li class="page-item"><a style="color: red" class="page-link paging">{{page+1}}</a></li>
+        <li class="page-item" *ngIf="next" (click)="nextPage()"><a class="page-link paging">{{page+2}}</a></li>
+        <li class="page-item" *ngIf="next" (click)="nextPage()"><a class="page-link paging">Trang sau</a></li>
       </ul>
     </nav>
   </div>
@@ -109,7 +109,7 @@
           <tr *ngFor="let item of cart,index as i">
             <th scope="row">{{i + 1}}</th>
             <td>{{item.book.name}}</td>
-            <td>{{item.book.price}}</td>
+            <td>{{item.book.price| currency:' '}}đ</td>
             <td>
               <table>
                 <tr>
@@ -141,7 +141,7 @@
         </table>
         <div class="row d-flex justify-content-between">
           <div class="col-4">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục mua hàng</button>
+            <button (click)="saveCart()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục mua hàng</button>
           </div>
           <div class="col-4 d-flex justify-content-end ">
             <button type="button" class="btn btn-primary">Thanh Toán đặt hàng</button>

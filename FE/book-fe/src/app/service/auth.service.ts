@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {User} from '../model/User';
 
 const AUTH_API = 'http://localhost:8080/api/';
 
@@ -26,6 +27,10 @@ export class AuthService {
       username: obj.username,
       password: obj.password
     }, this.httpOptions);
+  }
+
+  register(user: User): Observable<any> {
+    return this.httpClient.post<User>(AUTH_API + 'register', user, this.httpOptions);
   }
 
   logout() {

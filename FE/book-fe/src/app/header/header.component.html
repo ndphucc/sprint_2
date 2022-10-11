@@ -94,7 +94,7 @@
           <tr *ngFor="let item of cart,index as i">
             <th scope="row">{{i + 1}}</th>
             <td>{{item.book.name}}</td>
-            <td>{{item.book.price}}</td>
+            <td>{{item.book.price| currency:' '}}đ</td>
             <td>
               <table>
                 <tr>
@@ -126,14 +126,30 @@
         </table>
         <div class="row d-flex justify-content-between">
           <div class="col-4">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục mua hàng</button>
+            <button (click)="saveCart()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục mua hàng</button>
           </div>
           <div class="col-4 d-flex justify-content-end ">
-            <button type="button" class="btn btn-primary">Thanh Toán đặt hàng</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paypalModal">Thanh Toán đặt hàng</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-paypal></app-paypal>
 <!-- Modal: modalCart -->
+<script>
+  window.onbeforeunload = function () {
+    let temp = {
+      username: JSON.parse(localStorage.getItem('auth-user')),
+      bookCart: JSON.parse(localStorage.getItem('cart'))
+    };
+    $.ajax({
+      contentType: "application/json",
+      type: "post",
+      dataType: "json",
+      url: "http://localhost:8080/api/cart/save",
+      data: JSON.stringify(temp),
+    })
+  }
+</script>

@@ -1,9 +1,13 @@
 package com.example.demo.controller;
 
 import com.example.demo.config.JwtTokenUtil;
+import com.example.demo.dto.UserDto;
+import com.example.demo.model.AppUser;
 import com.example.demo.model.JwtRequest;
 import com.example.demo.model.JwtResponse;
+import com.example.demo.service.IUserService;
 import com.example.demo.service.impl.JwtUserDetailsService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +37,8 @@ public class JwtAuthenticationController {
 
     @Autowired
     private JwtUserDetailsService userDetailsService;
-
+    @Autowired
+    private IUserService iUserService;
 
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -70,5 +75,24 @@ public class JwtAuthenticationController {
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
+    }
+
+    @PostMapping("register")
+    public ResponseEntity<?> create(@RequestBody UserDto authenticationRequest) throws Exception {
+        AppUser user = new AppUser();
+        BeanUtils.copyProperties(authenticationRequest, user);
+        user.setBirthDay(java.time.LocalDate.parse(authenticationRequest.getBirthDay()));
+        user.setPassword(passwordEncoder().encode(user.getPassword()));
+        iUserService.save(user);
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
+        authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
+
+        final String token = jwtTokenUtil.generateToken(userDetails);
+
+        return ResponseEntity.ok(new JwtResponse(token, roles, userDetails.getUsername()));
+
     }
 }

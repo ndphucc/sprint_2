@@ -6,6 +6,8 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {ToastrService} from 'ngx-toastr';
 import {CookieService} from 'ngx-cookie-service';
 import {ShareService} from '../../service/share.service';
+import {CartService} from '../../service/cart.service';
+import {Cart} from '../../model/cart';
 
 @Component({
   selector: 'app-login',
@@ -17,6 +19,7 @@ export class LoginComponent implements OnInit {
   roles: string[] = [];
   username: string;
   returnUrl: string;
+  cart: Cart[] = [];
 
   constructor(private formBuild: FormBuilder,
               private tokenStorageService: TokenStorageService,
@@ -25,7 +28,8 @@ export class LoginComponent implements OnInit {
               private route: ActivatedRoute,
               private toastr: ToastrService,
               private shareService: ShareService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private cartService: CartService) {
   }
 
   ngOnInit(): void {
@@ -58,12 +62,16 @@ export class LoginComponent implements OnInit {
       this.username = this.tokenStorageService.getUser().username;
       this.roles = this.tokenStorageService.getUser().roles;
       this.formGroup.reset();
-      this.router.navigateByUrl(this.returnUrl);
-      this.toastr.success('Đăng nhập thành công', 'Đăng nhập: ', {
-        timeOut: 3000,
-        extendedTimeOut: 1500
+      this.cartService.getCart(this.username).subscribe(value => {
+        this.cart = value;
+        localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.router.navigateByUrl(this.returnUrl);
+        this.toastr.success('Đăng nhập thành công', 'Đăng nhập: ', {
+          timeOut: 3000,
+          extendedTimeOut: 1500
+        });
+        this.shareService.sendClickEvent();
       });
-      this.shareService.sendClickEvent();
     }, err => {
       this.authService.isLoggedIn = false;
       this.toastr.error('Sai tên đăng nhập hoặc mật khẩu hoặc tài khoản chưa được kích hoạt', 'Đăng nhập thất bại: ', {

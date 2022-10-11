@@ -99,6 +99,7 @@ export class HeaderComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+    localStorage.clear();
     this.user = {};
   }
 
@@ -109,4 +110,11 @@ export class HeaderComponent implements OnInit {
       this.router.navigateByUrl('/book/list/0/' + this.formSearch.get('search').value);
     }
   }
+
+  saveCart() {
+    if (this.tokenStorageService.getUser() !==  null) {
+      this.cartService.saveCart().subscribe();
+    }
+  }
 }
+

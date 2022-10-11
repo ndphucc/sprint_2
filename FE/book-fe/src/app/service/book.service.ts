@@ -12,8 +12,8 @@ export class BookService {
   constructor(private http: HttpClient) {
   }
 
-  getAll(idType: number, search: string): Observable<any> {
-    return this.http.get<any>(this.API_URL + '/list?idType=' + idType + '&search=' + search);
+  getAll(idType: number, search: string, page: number): Observable<any> {
+    return this.http.get<any>(this.API_URL + '/list?idType=' + idType + '&search=' + search + '&page=' + page);
   }
 
   findById(id: number): Observable<Book> {

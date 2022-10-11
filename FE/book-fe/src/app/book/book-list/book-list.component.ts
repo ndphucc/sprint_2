@@ -6,6 +6,7 @@ import {BookTypeService} from '../../service/book-type.service';
 import {BookType} from '../../model/book-type';
 import {CartService} from '../../service/cart.service';
 import {Cart} from '../../model/cart';
+import {TokenStorageService} from '../../service/token-storage.service';
 
 @Component({
   selector: 'app-book-list',
@@ -17,26 +18,18 @@ export class BookListComponent implements OnInit {
   bookType: BookType = {};
   cart: Cart[] = [];
   totalMoney = 0;
+  previous = false;
+  next = false;
+  page = 0;
 
   constructor(private activeRouter: ActivatedRoute, private bookService: BookService,
-              private bookTypeService: BookTypeService, private cartService: CartService) {
+              private bookTypeService: BookTypeService, private cartService: CartService,
+              private tokenStorageService: TokenStorageService) {
   }
 
   ngOnInit(): void {
-    this.activeRouter.paramMap.subscribe(paramMap => {
-      this.bookService.getAll(+paramMap.get('id'), paramMap.get('search')).subscribe(value => {
-        this.books = value.content;
-      });
-      if (+paramMap.get('id') > 0) {
-        this.bookTypeService.findById(+paramMap.get('id')).subscribe(value => {
-          this.bookType = value;
-        });
-      } else {
-        this.bookType = {
-          name: 'Kết quả tìm kiếm'
-        };
-      }
-    });
+    this.page = 0;
+    this.getList();
   }
 
   addCard(item: Book) {
@@ -79,5 +72,39 @@ export class BookListComponent implements OnInit {
   decCart(book: Book) {
     this.cartService.addCard(book, -1);
     this.showCard();
+  }
+
+  getList() {
+    this.activeRouter.paramMap.subscribe(paramMap => {
+      this.bookService.getAll(+paramMap.get('id'), paramMap.get('search'), this.page).subscribe(value => {
+        this.books = value.content;
+        this.next = !value.last;
+        this.previous = !value.first;
+      });
+      if (+paramMap.get('id') > 0) {
+        this.bookTypeService.findById(+paramMap.get('id')).subscribe(value => {
+          this.bookType = value;
+        });
+      } else {
+        this.bookType = {
+          name: 'Kết quả tìm kiếm'
+        };
+      }
+    });
+  }
+
+  nextPage() {
+    this.page++;
+    this.getList();
+  }
+
+  previousPage() {
+    this.page--;
+    this.getList();
+  }
+  saveCart() {
+    if (this.tokenStorageService.getUser() !==  null) {
+      this.cartService.saveCart().subscribe();
+    }
   }
 }
