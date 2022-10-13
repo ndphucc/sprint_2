@@ -11,9 +11,7 @@ public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String code;
     private boolean cart;
-    private LocalDate billDate;
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private AppUser user;
@@ -23,6 +21,7 @@ public class Bill {
     @OneToOne
     @JoinColumn(name = "bill_detail_id", referencedColumnName = "id")
     private BillDetail billDetail;
+
     public Bill() {
     }
 
@@ -42,13 +41,6 @@ public class Bill {
         this.cart = cart;
     }
 
-    public LocalDate getBillDate() {
-        return billDate;
-    }
-
-    public void setBillDate(LocalDate billDate) {
-        this.billDate = billDate;
-    }
 
     public int getId() {
         return id;
@@ -58,13 +50,6 @@ public class Bill {
         this.id = id;
     }
 
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 
     public AppUser getUser() {
         return user;

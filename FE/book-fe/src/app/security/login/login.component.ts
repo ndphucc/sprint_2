@@ -8,6 +8,8 @@ import {CookieService} from 'ngx-cookie-service';
 import {ShareService} from '../../service/share.service';
 import {CartService} from '../../service/cart.service';
 import {Cart} from '../../model/cart';
+import {User} from '../../model/User';
+import {SecurityService} from '../../service/security.service';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +22,7 @@ export class LoginComponent implements OnInit {
   username: string;
   returnUrl: string;
   cart: Cart[] = [];
+  user: User = {};
 
   constructor(private formBuild: FormBuilder,
               private tokenStorageService: TokenStorageService,
@@ -29,10 +32,12 @@ export class LoginComponent implements OnInit {
               private toastr: ToastrService,
               private shareService: ShareService,
               private cookieService: CookieService,
-              private cartService: CartService) {
+              private cartService: CartService,
+              private securityService: SecurityService) {
   }
 
   ngOnInit(): void {
+    this.securityService.currentUser.subscribe(message => this.user = message);
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '';
     this.formGroup = this.formBuild.group({
         username: [''],
@@ -57,9 +62,12 @@ export class LoginComponent implements OnInit {
         this.tokenStorageService.saveTokenSession(data.token);
         this.tokenStorageService.saveUserSession(data);
       }
-
       this.authService.isLoggedIn = true;
       this.username = this.tokenStorageService.getUser().username;
+      this.securityService.findByUser(this.username).subscribe(value => {
+        this.user = value;
+        this.securityService.changeUser(this.user);
+      });
       this.roles = this.tokenStorageService.getUser().roles;
       this.formGroup.reset();
       this.cartService.getCart(this.username).subscribe(value => {

@@ -1,17 +1,31 @@
 package com.example.demo.controller;
+
 import com.example.demo.dto.BillDetailDto;
+import com.example.demo.dto_projection.IBillDetailDto;
+import com.example.demo.service.IBillDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("api/book")
+@CrossOrigin
+@RequestMapping("api/billDetail")
 public class BillDetailController {
-    @PostMapping("/save")
+    @Autowired
+    private IBillDetailService billDetailService;
+
+    @PostMapping("save")
     public ResponseEntity<BillDetailDto> saveCart(@RequestBody BillDetailDto billDetailDto) {
+        billDetailService.save(billDetailDto);
         return new ResponseEntity<>(billDetailDto, HttpStatus.OK);
+    }
+
+    @GetMapping("history/{username}")
+    public ResponseEntity<List<IBillDetailDto>> getHistory(@PathVariable String username) {
+        return new ResponseEntity<>(billDetailService.getHistory(username), HttpStatus.OK);
     }
 }

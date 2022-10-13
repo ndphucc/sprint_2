@@ -5,6 +5,8 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {TokenStorageService} from '../../service/token-storage.service';
 import {SecurityService} from '../../service/security.service';
 import {User} from '../../model/User';
+import {BillDetailService} from '../../service/bill-detail.service';
+import {BillDetail} from '../../model/bill-detail';
 
 @Component({
   selector: 'app-paypal',
@@ -21,27 +23,20 @@ export class PaypalComponent implements OnInit {
   user: User = {};
 
   constructor(private cartService: CartService, private tokenService: TokenStorageService, private fb: FormBuilder,
-              private securityService: SecurityService) {
-    render(
-      {
-        id: '#myPaypalButtons',
-        currency: 'USD',
-        value: this.cartService.resultTotal() + '',
-        onApprove: (detail) => {
-          alert('transaction succesfull');
-        }
-      }
-    );
+              private securityService: SecurityService, private billDetailService: BillDetailService) {
+    this.cartService.currentMessage.subscribe(message => this.total = message);
+    console.log(JSON.stringify(this.total / 23000));
+
   }
 
   ngOnInit(): void {
+    this.securityService.currentUser.subscribe(message => this.user = message);
     if (this.tokenService.getToken()) {
       this.securityService.findByUser(this.tokenService.getUser().username).subscribe(user => {
         this.user = user;
       })
       ;
     }
-    this.total = this.cartService.resultTotal();
     this.form = this.fb.group({
       phone: [''],
       address: [''],

@@ -13,6 +13,7 @@ import {ToastrModule} from 'ngx-toastr';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {ReactiveFormsModule} from '@angular/forms';
 import {PaypalModule} from './paypal/paypal.module';
+import {UserModule} from './user/user.module';
 
 @NgModule({
   declarations: [
@@ -22,15 +23,16 @@ import {PaypalModule} from './paypal/paypal.module';
     BodyComponent,
   ],
     imports: [
-        BrowserModule,
-        AppRoutingModule,
-        SecurityModule,
-        BookModule,
-        PaypalModule,
-        HttpClientModule,
-        ToastrModule.forRoot(),
-        BrowserAnimationsModule,
-        ReactiveFormsModule
+      BrowserModule,
+      AppRoutingModule,
+      SecurityModule,
+      BookModule,
+      PaypalModule,
+      UserModule,
+      HttpClientModule,
+      ToastrModule.forRoot(),
+      BrowserAnimationsModule,
+      ReactiveFormsModule
     ],
   providers: [],
   bootstrap: [AppComponent]

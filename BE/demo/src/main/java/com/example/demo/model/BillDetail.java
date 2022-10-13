@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class BillDetail {
@@ -10,9 +11,19 @@ public class BillDetail {
     private String phone;
     private String note;
     private String address;
+
+    private LocalDate billDate;
     @OneToOne(mappedBy = "billDetail")
     private Bill bill;
     public BillDetail() {
+    }
+
+    public LocalDate getBillDate() {
+        return billDate;
+    }
+
+    public void setBillDate(LocalDate billDate) {
+        this.billDate = billDate;
     }
 
     public Bill getBill() {

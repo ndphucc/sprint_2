@@ -25,6 +25,7 @@ public class CartService implements ICartService {
     public void save(CartDto cartDto) {
         Bill bill = billService.findCart(cartDto.getUsername());
         if (bill == null) {
+            bill = new Bill();
             AppUser appUser = userRepository.findAppUserByName(cartDto.getUsername());
             bill.setCart(true);
             bill.setUser(appUser);

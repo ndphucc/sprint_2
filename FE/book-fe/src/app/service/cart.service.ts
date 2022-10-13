@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Cart} from '../model/cart';
 import {Book} from '../model/book';
 import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {CartUser} from '../model/CartUser';
 import {TokenStorageService} from './token-storage.service';
 
@@ -12,13 +12,21 @@ import {TokenStorageService} from './token-storage.service';
 export class CartService {
   API_URL = 'http://localhost:8080/api/cart';
   cart: Cart[] = [];
+  private messageSource = new BehaviorSubject(0);
+  currentMessage = this.messageSource.asObservable();
 
   constructor(private http: HttpClient, private tokenStorageService: TokenStorageService) {
   }
 
+  changeMessage(message: number) {
+    this.messageSource.next(message);
+  }
+
   addCard(book: Book, amount: number) {
     let temp: Cart = {};
-    if (JSON.parse(localStorage.getItem('cart')) !== null) {
+    if (JSON.parse(localStorage.getItem('cart')) == null) {
+      this.cart = [];
+    } else {
       this.cart = JSON.parse(localStorage.getItem('cart'));
     }
     for (let i = 0; i < this.cart.length; i++) {
@@ -53,18 +61,5 @@ export class CartService {
       bookCart: JSON.parse(localStorage.getItem('cart'))
     };
     return this.http.post(this.API_URL + '/save', temp);
-  }
-
-  resultTotal(): number {
-    let temp = 0;
-    this.cart = JSON.parse(localStorage.getItem('cart'));
-    if (this.cart === null || this.cart.length === 0) {
-      temp = 0;
-    } else {
-      for (const item of this.cart) {
-        temp += item.book.price * item.amount;
-      }
-    }
-    return temp;
   }
 }

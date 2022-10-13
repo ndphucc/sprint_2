@@ -1,0 +1,23 @@
+<div class="body d-flex justify-content-center" style="padding: 30px 0">
+  <div class="content mb-auto" style="padding: 30px 20px ">
+    <table class="table-hover table mb-auto">
+      <thead>
+        <th>STT</th>
+        <th>Người mua</th>
+        <th>Ngày mua</th>
+        <th>Địa chỉ</th>
+        <th>Số điện thoại</th>
+        <th>Tổng tiền</th>
+      </thead>
+      <tr *ngFor="let item of billHistory,index as i">
+        <td>{{i+1}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.billDate}}</td>
+        <td>{{item.address}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.total}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+

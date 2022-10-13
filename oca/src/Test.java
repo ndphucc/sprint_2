@@ -1,15 +1,21 @@
 public class Test {
-    public void updatePrice(Product product, double price) {
-        price = price * 2;
-        product.price = product.price + price;
+    public static String sort(String str) {
+        char charArray[] = str.toCharArray();
+        for (int i = 0; i < charArray.length - 1; i++) {
+            for (int j = i + 1; j < charArray.length; j++) {
+                if (charArray[i] > charArray[j]) {
+                    char temp = charArray[i];
+                    charArray[i] = charArray[j];
+                    charArray[j] = temp;
+                }
+            }
+        }
+        return new String(charArray);
     }
 
     public static void main(String[] args) {
-        Product prt = new Product();
-        prt.price = 200;
-        double newPrice = 100;
-        Test t = new Test();
-        t.updatePrice(prt, newPrice);
-        System.out.println(prt.price + ":" + newPrice);
+        String str = "aghssyujh";
+        str = sort(str);
+        System.out.println(str);
     }
 }

@@ -8,6 +8,7 @@ import {ToastrService} from 'ngx-toastr';
 import {ShareService} from '../../service/share.service';
 import {CookieService} from 'ngx-cookie-service';
 import {CartService} from '../../service/cart.service';
+import {SecurityService} from '../../service/security.service';
 
 @Component({
   selector: 'app-register',
@@ -25,6 +26,7 @@ export class RegisterComponent implements OnInit {
     name: new FormControl(),
     birthDay: new FormControl(),
   });
+  user: User = {};
   private returnUrl: string;
 
   constructor(private fb: FormBuilder,
@@ -36,7 +38,8 @@ export class RegisterComponent implements OnInit {
               private toastr: ToastrService,
               private shareService: ShareService,
               private cookieService: CookieService,
-              private cartService: CartService) {
+              private cartService: CartService,
+              private securityService: SecurityService) {
   }
 
   ngOnInit(): void {
@@ -63,6 +66,10 @@ export class RegisterComponent implements OnInit {
       this.tokenStorageService.saveUserSession(data);
       this.authService.isLoggedIn = true;
       this.formLogin.reset();
+      this.securityService.findByUser(user.username).subscribe(value => {
+        this.user = value;
+        this.securityService.changeUser(this.user);
+      });
       this.router.navigateByUrl(this.returnUrl);
       this.shareService.sendClickEvent();
     }, err => {

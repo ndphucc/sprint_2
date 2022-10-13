@@ -11,6 +11,9 @@ import {AuthService} from '../service/auth.service';
 import {User} from '../model/User';
 import {SecurityService} from '../service/security.service';
 import {FormControl, FormGroup} from '@angular/forms';
+import {render, RenderParams} from 'creditcardpayments/creditCardPayments';
+import {BillDetail} from '../model/bill-detail';
+import {BillDetailService} from '../service/bill-detail.service';
 
 @Component({
   selector: 'app-header',
@@ -23,19 +26,25 @@ export class HeaderComponent implements OnInit {
   totalMoney = 0;
   username = '';
   role: string;
-  user: User = {};
+  user: User;
   formSearch = new FormGroup({
     search: new FormControl()
   });
+  form: FormGroup = new FormGroup({
+    phone: new FormControl(),
+    address: new FormControl(),
+    note: new FormControl()
+  });
+  paypal: RenderParams = {};
 
   constructor(private bookTypeService: BookTypeService,
               private router: Router, private cartService: CartService,
               private tokenStorageService: TokenStorageService,
               private shareService: ShareService, private authService: AuthService,
-              private securityService: SecurityService) {
+              private securityService: SecurityService,
+              private billDetailService: BillDetailService) {
     this.shareService.getClickEvent().subscribe(() => {
       this.loadHeader();
-      console.log(this.username);
       this.securityService.findByUser(this.username).subscribe(value => {
         this.user = value;
       });
@@ -43,6 +52,8 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.cartService.currentMessage.subscribe(message => this.totalMoney = message);
+    this.securityService.currentUser.subscribe(message => this.user = message);
     this.bookTypeService.getAll().subscribe(value => {
       this.bookTypes = value;
     });
@@ -54,7 +65,11 @@ export class HeaderComponent implements OnInit {
   }
 
   showCard() {
-    this.cart = JSON.parse(localStorage.getItem('cart'));
+    if (JSON.parse(localStorage.getItem('cart')) == null) {
+      this.cart = [];
+    } else {
+      this.cart = JSON.parse(localStorage.getItem('cart'));
+    }
     this.resultTotal();
   }
 
@@ -68,6 +83,7 @@ export class HeaderComponent implements OnInit {
       }
     }
     this.totalMoney = temp;
+    this.cartService.changeMessage(this.totalMoney);
   }
 
   deleteCart(id: number) {
@@ -75,6 +91,7 @@ export class HeaderComponent implements OnInit {
       if (card.book.id === id) {
         this.cart.splice(this.cart.indexOf(card), 1);
         localStorage.setItem('cart', JSON.stringify(this.cart));
+        this.showCard();
         return;
       }
     }
@@ -112,9 +129,30 @@ export class HeaderComponent implements OnInit {
   }
 
   saveCart() {
-    if (this.tokenStorageService.getUser() !==  null) {
+    if (this.tokenStorageService.getUser() !== null) {
       this.cartService.saveCart().subscribe();
     }
+  }
+
+  renderPaypal() {
+    this.saveCart();
+    this.paypal = {
+      id: '#myPaypalButtons',
+      currency: 'USD',
+      value: ((this.totalMoney / 23000).toFixed(2)) + '',
+      onApprove: (detail) => {
+        const billDetail: BillDetail = this.form.value;
+        billDetail.username = this.user.username;
+        console.log(billDetail);
+        this.billDetailService.save(billDetail).subscribe(value => {
+            localStorage.setItem('cart', JSON.stringify(null));
+            document.getElementById('closePaypal').click();
+          }
+        );
+      }
+    };
+    document.getElementById('myPaypalButtons').innerHTML = '';
+    render(this.paypal);
   }
 }
 

@@ -15,7 +15,7 @@ public interface IBookBillRepository extends JpaRepository<BookBill, Integer> {
 
     @Transactional
     @Modifying
-    @Query(value = "delete from book_bill where bill_id in (select bill.id from bill join app_user au on au.id = bill.user_id where username=:username);", nativeQuery = true)
+    @Query(value = "delete from book_bill where bill_id in (select bill.id from bill join app_user au on au.id = bill.user_id where username=:username and bill.cart = true);", nativeQuery = true)
     void deleteCartByUsername(@Param("username") String username);
 
     @Transactional
