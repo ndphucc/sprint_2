@@ -19,4 +19,9 @@ export class BookService {
   findById(id: number): Observable<Book> {
     return this.http.get<Book>(this.API_URL + '/' + id);
   }
+
+  findTop(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.API_URL + '/top');
+
+  }
 }

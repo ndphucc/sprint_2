@@ -29,6 +29,7 @@ export class BookDetailComponent implements OnInit {
     note: new FormControl()
   });
   paypal: RenderParams = {};
+  total = 0;
 
   constructor(private activateRouter: ActivatedRoute, private bookService: BookService, private cartService: CartService,
               private tokenStorageService: TokenStorageService,
@@ -116,12 +117,36 @@ export class BookDetailComponent implements OnInit {
         console.log(billDetail);
         this.billDetailService.save(billDetail).subscribe(value => {
             localStorage.setItem('cart', JSON.stringify(null));
-            document.getElementById('closePaypal').click();
+            document.getElementById('closePaypal-list').click();
           }
         );
       }
     };
     document.getElementById('myPaypalButtonslist').innerHTML = '';
     render(this.paypal);
+  }
+
+  buyBook() {
+    debugger;
+    document.getElementById('myPaypalButtonslist').innerHTML = '';
+    this.total = this.book.price;
+    render({
+      id: '#myPaypalButtonslist',
+      currency: 'USD',
+      value: (this.book.price * this.amount / 23000).toFixed(2) + '',
+      onApprove: (detail) => {
+        const billDetail: BillDetail = this.form.value;
+        billDetail.username = this.user.username;
+        billDetail.bookCartDto = {
+          amount: this.amount,
+          book: this.book
+        };
+        this.billDetailService.save(billDetail).subscribe(value => {
+            document.getElementById('closePaypal-list').click();
+          }
+        );
+      }
+    });
+    document.getElementById('show-modal-paypal').click();
   }
 }

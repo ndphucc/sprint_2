@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/book")
 @CrossOrigin
@@ -28,5 +30,9 @@ public class BookController {
     @GetMapping("{id}")
     public ResponseEntity<Book> findById(@PathVariable Integer id) {
         return new ResponseEntity<>(iBookService.findById(id), HttpStatus.OK);
+    }
+    @GetMapping("/top")
+    public ResponseEntity<List<Book>> getTop() {
+        return new ResponseEntity<>(iBookService.findTop(), HttpStatus.OK);
     }
 }

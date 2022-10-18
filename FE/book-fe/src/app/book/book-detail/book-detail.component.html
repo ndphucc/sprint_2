@@ -21,7 +21,7 @@
           </div>
           <div class="col-6">
             <div class="row">
-              Giá : {{book.price| currency:" "}}
+              Giá : {{book.price| currency:" ": '': '5.0'}}
             </div>
             <div class="row mt-4">
               SỐ LƯỢNG
@@ -50,7 +50,7 @@
                 </div>
                 <div class="row d-flex justify-content-center mt-1">
                   <div class="col-12">
-                    <button class="btn btn-success w-100">Mua ngay</button>
+                    <button class="btn btn-success w-100" (click)="buyBook()">Mua ngay</button>
                   </div>
                 </div>
               </div>
@@ -132,7 +132,11 @@
           <button (click)="saveCart()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tiếp tục mua hàng</button>
         </div>
         <div class="col-4 d-flex justify-content-end ">
-          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paypalModalList" (click)="renderPaypal()">Thanh Toán đặt hàng</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="renderPaypal()">Thanh Toán đặt
+            hàng
+          </button>
+          <button id="show-modal-paypal" style="display: none" type="button" class="btn btn-primary"
+                  data-bs-toggle="modal" data-bs-target="#paypalModalList"></button>
         </div>
       </div>
       </div>
@@ -179,7 +183,7 @@
             </tr>
             <tr>
               <td>Tổng tiền</td>
-              <td style="color: red">{{totalMoney | currency:' ' }}đ</td>
+              <td style="color: red">{{total | currency:' ' }}đ</td>
             </tr>
             <tr>
               <td colspan="2">
@@ -190,9 +194,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary d-none" data-bs-dismiss="modal" id="closePaypal">Close</button>
+        <button type="button" class="btn btn-secondary d-none" data-bs-dismiss="modal" id="closePaypal-list">Close</button>
       </div>
     </div>
   </div>
 </div>
-

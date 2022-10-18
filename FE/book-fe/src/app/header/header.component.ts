@@ -14,6 +14,7 @@ import {FormControl, FormGroup} from '@angular/forms';
 import {render, RenderParams} from 'creditcardpayments/creditCardPayments';
 import {BillDetail} from '../model/bill-detail';
 import {BillDetailService} from '../service/bill-detail.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-header',
@@ -42,12 +43,12 @@ export class HeaderComponent implements OnInit {
               private tokenStorageService: TokenStorageService,
               private shareService: ShareService, private authService: AuthService,
               private securityService: SecurityService,
-              private billDetailService: BillDetailService) {
-    this.shareService.getClickEvent().subscribe(() => {
-      this.loadHeader();
-      this.securityService.findByUser(this.username).subscribe(value => {
-        this.user = value;
-      });
+              private billDetailService: BillDetailService,
+              private toastService: ToastrService) {
+    this.loadHeader();
+    this.securityService.findByUser(this.username).subscribe(value => {
+      this.user = value;
+      this.securityService.changeUser(this.user);
     });
   }
 
@@ -108,9 +109,12 @@ export class HeaderComponent implements OnInit {
   }
 
   loadHeader(): void {
+
     if (this.tokenStorageService.getToken()) {
       this.role = this.tokenStorageService.getUser().roles[0];
+      console.log(this.role);
       this.username = this.tokenStorageService.getUser().username;
+      console.log(this.username);
     }
   }
 
@@ -135,6 +139,11 @@ export class HeaderComponent implements OnInit {
   }
 
   renderPaypal() {
+    if (this.tokenStorageService.getUser() == null) {
+      this.router.navigateByUrl('login');
+      this.toastService.warning('Vui lòng đăng nhập hoặc đăng ký trước khi thanh toán');
+      return;
+    }
     this.saveCart();
     this.paypal = {
       id: '#myPaypalButtons',
@@ -153,6 +162,7 @@ export class HeaderComponent implements OnInit {
     };
     document.getElementById('myPaypalButtons').innerHTML = '';
     render(this.paypal);
+    document.getElementById('showPayPal').click();
   }
 }
 

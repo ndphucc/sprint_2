@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {Book} from '../../model/book';
 import {BookService} from '../../service/book.service';
 import {BookTypeService} from '../../service/book-type.service';
@@ -13,6 +13,7 @@ import {render, RenderParams} from 'creditcardpayments/creditCardPayments';
 import {BillDetail} from '../../model/bill-detail';
 import {BillDetailService} from '../../service/bill-detail.service';
 import {SecurityService} from '../../service/security.service';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-book-list',
@@ -34,12 +35,15 @@ export class BookListComponent implements OnInit {
     note: new FormControl()
   });
   paypal: RenderParams = {};
+  total = 0;
 
   constructor(private activeRouter: ActivatedRoute, private bookService: BookService,
               private bookTypeService: BookTypeService, private cartService: CartService,
               private tokenStorageService: TokenStorageService,
               private billDetailService: BillDetailService,
-              private securityService: SecurityService) {
+              private securityService: SecurityService,
+              private router: Router,
+              private toastService: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -93,10 +97,22 @@ export class BookListComponent implements OnInit {
 
   getList() {
     this.activeRouter.paramMap.subscribe(paramMap => {
+      if (paramMap.get('top') === 'top') {
+        this.bookService.findTop().subscribe(value => {
+          this.books = value;
+          this.next = false;
+          this.previous = false;
+          this.bookType = {
+            name: 'Top bán chạy'
+          };
+        });
+        return;
+      }
       this.bookService.getAll(+paramMap.get('id'), paramMap.get('search'), this.page).subscribe(value => {
         this.books = value.content;
         this.next = !value.last;
         this.previous = !value.first;
+        console.log(this.books);
       });
       if (+paramMap.get('id') > 0) {
         this.bookTypeService.findById(+paramMap.get('id')).subscribe(value => {
@@ -125,6 +141,11 @@ export class BookListComponent implements OnInit {
     }
   }
   renderPaypal() {
+    if (this.tokenStorageService.getUser() == null) {
+      this.router.navigateByUrl('login');
+      this.toastService.warning('Vui lòng đăng nhập hoặc đăng ký trước khi thanh toán');
+      return;
+    }
     this.saveCart();
     this.paypal = {
       id: '#myPaypalButtonslist',
@@ -136,12 +157,37 @@ export class BookListComponent implements OnInit {
         console.log(billDetail);
         this.billDetailService.save(billDetail).subscribe(value => {
             localStorage.setItem('cart', JSON.stringify(null));
-            document.getElementById('closePaypal').click();
+            document.getElementById('closePaypal-list').click();
           }
         );
       }
     };
     document.getElementById('myPaypalButtonslist').innerHTML = '';
     render(this.paypal);
+    this.total = this.totalMoney;
+    document.getElementById('show-modal-paypal').click();
+  }
+
+  buyBook(book: Book) {
+    document.getElementById('myPaypalButtonslist').innerHTML = '';
+    this.total = book.price;
+    render({
+      id: '#myPaypalButtonslist',
+      currency: 'USD',
+      value: (book.price / 23000).toFixed(2) + '',
+      onApprove: (detail) => {
+        const billDetail: BillDetail = this.form.value;
+        billDetail.username = this.user.username;
+        billDetail.bookCartDto = {
+          amount: 1,
+          book
+        };
+        this.billDetailService.save(billDetail).subscribe(value => {
+            document.getElementById('closePaypal-list').click();
+          }
+        );
+      }
+    });
+    document.getElementById('show-modal-paypal').click();
   }
 }

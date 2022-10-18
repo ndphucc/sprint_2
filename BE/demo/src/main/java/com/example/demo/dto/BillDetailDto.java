@@ -6,7 +6,17 @@ public class BillDetailDto {
     private String address;
     private String username;
 
+    private BookCartDto bookCartDto;
+
     public BillDetailDto() {
+    }
+
+    public BookCartDto getBookCartDto() {
+        return bookCartDto;
+    }
+
+    public void setBookCartDto(BookCartDto bookCartDto) {
+        this.bookCartDto = bookCartDto;
     }
 
     public String getPhone() {

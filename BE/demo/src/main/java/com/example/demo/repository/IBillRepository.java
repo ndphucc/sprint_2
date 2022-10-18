@@ -12,6 +12,9 @@ public interface IBillRepository extends JpaRepository<Bill, Integer> {
     @Query(value = "select bill.* from bill join app_user au on au.id = bill.user_id where username =:username && bill.cart = true;", nativeQuery = true)
     Bill findByCart(@Param("username") String username);
 
+    @Query(value = "select max(id) from bill", nativeQuery = true)
+    Integer findMaxIdBill();
+
     @Transactional
     @Modifying
     @Query(value = "update bill set cart = false, bill_detail_id =:idDetail where id=:id", nativeQuery = true)

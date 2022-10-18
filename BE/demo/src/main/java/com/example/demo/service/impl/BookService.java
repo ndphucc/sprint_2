@@ -8,6 +8,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class BookService implements IBookService {
     @Autowired
@@ -21,5 +23,10 @@ public class BookService implements IBookService {
     @Override
     public Book findById(Integer id) {
         return bookRepository.findById(id).get();
+    }
+
+    @Override
+    public List<Book> findTop() {
+        return bookRepository.findTop();
     }
 }

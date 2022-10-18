@@ -62,8 +62,8 @@ export class RegisterComponent implements OnInit {
     user.password = this.formLogin.get('password').get('password').value;
     console.log(user);
     this.authService.register(user).subscribe(data => {
-      this.tokenStorageService.saveTokenSession(data.token);
-      this.tokenStorageService.saveUserSession(data);
+      this.tokenStorageService.saveTokenLocal(data.token);
+      this.tokenStorageService.saveUserLocal(data);
       this.authService.isLoggedIn = true;
       this.formLogin.reset();
       this.securityService.findByUser(user.username).subscribe(value => {
