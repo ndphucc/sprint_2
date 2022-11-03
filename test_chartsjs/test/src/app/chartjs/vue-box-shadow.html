@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
+</head>
+<body>
+<div id="app">
+  <div v-bind:class="[box-shadow]"></div>
+</div>
+<script>
+  computed: {
+    box-shadow: function () {
+      return {
+        box-shadow: rgba(40,159,237,1) 5px 5px 0px 0px,
+        rgba(95,184,255,1) 10px 10px 0px 0px,
+        rgba(161,216,255,1) 15px 15px 0px 0px,
+        rgba(202,230,255,1) 20px 20px 0px 0px,
+        rgba(225,238,255,1) 25px 25px 0px 0px;
+
+      }
+    }
+  }
+</script>
+</body>
+</html>

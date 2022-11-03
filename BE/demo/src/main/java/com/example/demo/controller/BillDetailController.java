@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.BillDetailDto;
-import com.example.demo.dto_projection.IBillDetailDto;
+import com.example.demo.dto.HistoryDto;
 import com.example.demo.service.IBillDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,8 @@ public class BillDetailController {
     }
 
     @GetMapping("history/{username}")
-    public ResponseEntity<List<IBillDetailDto>> getHistory(@PathVariable String username) {
+    public ResponseEntity<List<HistoryDto>> getHistory(@PathVariable String username) {
+        List<HistoryDto> historyDtos = billDetailService.getHistory(username);
         return new ResponseEntity<>(billDetailService.getHistory(username), HttpStatus.OK);
     }
 }

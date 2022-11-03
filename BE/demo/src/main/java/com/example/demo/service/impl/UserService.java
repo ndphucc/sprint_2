@@ -1,5 +1,6 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.dto_projection.ICustomerDto;
 import com.example.demo.model.AppRole;
 import com.example.demo.model.AppUser;
 import com.example.demo.model.UserRole;
@@ -29,6 +30,11 @@ public class UserService implements IUserService {
     @Override
     public AppUser findByUsername(String username) {
         return iUserRepository.findAppUserByName(username);
+    }
+
+    @Override
+    public List<ICustomerDto> findTopCustomer() {
+        return iUserRepository.findTopCustomer();
     }
 
 }

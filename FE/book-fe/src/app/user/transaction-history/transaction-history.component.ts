@@ -10,6 +10,7 @@ import {TokenStorageService} from '../../service/token-storage.service';
 })
 export class TransactionHistoryComponent implements OnInit {
   billHistory: BillHistory[] = [];
+  billDetail: BillHistory = {};
 
   constructor(private billDetailService: BillDetailService, private tokenStorageService: TokenStorageService) {
   }
@@ -17,10 +18,14 @@ export class TransactionHistoryComponent implements OnInit {
   ngOnInit(): void {
     if (this.tokenStorageService.getToken()) {
       this.billDetailService.getHistory(this.tokenStorageService.getUser().username).subscribe(value => {
+        console.log(value);
         this.billHistory = value;
       });
     }
 
   }
 
+  displayDetail(item: BillHistory) {
+    this.billDetail = item;
+  }
 }

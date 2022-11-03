@@ -13,6 +13,9 @@ public interface IBookBillRepository extends JpaRepository<BookBill, Integer> {
     @Query(value = "select bb.* from  app_user join bill b on app_user.id = b.user_id left join book_bill bb on b.id = bb.bill_id join book b2 on bb.book_id = b2.id where app_user.username = :username and b.cart;", nativeQuery = true)
     List<BookBill> findCart(@Param("username") String username);
 
+    @Query(value = "select bb.* from  app_user join bill b on app_user.id = b.user_id left join book_bill bb on b.id = bb.bill_id join book b2 on bb.book_id = b2.id where b.id=:id", nativeQuery = true)
+    List<BookBill> findBookBillDetail(@Param("id") int id);
+
     @Transactional
     @Modifying
     @Query(value = "delete from book_bill where bill_id in (select bill.id from bill join app_user au on au.id = bill.user_id where username=:username and bill.cart = true);", nativeQuery = true)

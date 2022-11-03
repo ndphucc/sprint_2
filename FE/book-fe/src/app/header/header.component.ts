@@ -15,6 +15,7 @@ import {render, RenderParams} from 'creditcardpayments/creditCardPayments';
 import {BillDetail} from '../model/bill-detail';
 import {BillDetailService} from '../service/bill-detail.service';
 import {ToastrService} from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-header',
@@ -62,6 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeComponent(link: string) {
+    console.log(link);
     this.router.navigateByUrl(link);
   }
 
@@ -109,23 +111,24 @@ export class HeaderComponent implements OnInit {
   }
 
   loadHeader(): void {
-
     if (this.tokenStorageService.getToken()) {
       this.role = this.tokenStorageService.getUser().roles[0];
       console.log(this.role);
       this.username = this.tokenStorageService.getUser().username;
-      console.log(this.username);
     }
   }
 
   logout() {
     this.authService.logout();
     localStorage.clear();
-    this.user = {};
+    this.user = undefined;
+    this.securityService.changeUser(undefined);
+    this.loadHeader();
+    this.router.navigateByUrl('');
   }
 
   search() {
-    if (this.formSearch.get('search').value == null || this.formSearch.get('search').value === '' + '') {
+    if (this.formSearch.get('search').value == null || this.formSearch.get('search').value === '') {
       this.router.navigateByUrl('/book/list/0');
     } else {
       this.router.navigateByUrl('/book/list/0/' + this.formSearch.get('search').value);
@@ -154,6 +157,12 @@ export class HeaderComponent implements OnInit {
         billDetail.username = this.user.username;
         console.log(billDetail);
         this.billDetailService.save(billDetail).subscribe(value => {
+            this.form = new FormGroup({
+              phone: new FormControl(),
+              address: new FormControl(),
+              note: new FormControl()
+            });
+            Swal.fire('Thông Báo !!', 'Thanh toán thành công', 'success').then();
             localStorage.setItem('cart', JSON.stringify(null));
             document.getElementById('closePaypal').click();
           }

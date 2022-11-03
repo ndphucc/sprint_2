@@ -11,7 +11,7 @@
         <div class="row pt-2" style="border-bottom: 4px solid #cacbcc">
           <div class="col-6">
             <ul>
-              <li style="margin-bottom: 5px">Mã sản phẩm: B{{book.id}}</li>
+              <li style="margin-bottom: 5px">Mã sản phẩm: {{book.code}}</li>
               <li style="margin-bottom: 5px">Tác giả: {{book.author}}</li>
               <li style="margin-bottom: 5px">Nhà xuất bản: {{book.publishingCompany}}</li>
               <li style="margin-bottom: 5px">Số trang: {{book.totalPage}}</li>
@@ -34,7 +34,7 @@
                     </div>
                     <div class="col-2 p-0">
                       <div class="row">
-                        <button (click)="incAmount()" class="btn-none" style="padding: 0;border: none;background: none"><img src="assets/cartup.png"></button>
+                        <button (click)="incAmount()" class="btn-none p-1" style="padding: 0;border: none;background: none"><img src="assets/cartup.png"></button>
                       </div>
                       <div class="row">
                         <button (click)="desAmount()" class="btn-none" style="padding: 0;border: none;background: none"><img src="assets/cartdown.png"></button>

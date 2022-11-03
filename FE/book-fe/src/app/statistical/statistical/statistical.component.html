@@ -1,0 +1,25 @@
+<div class="container">
+  <div class="row">
+    <form class="col-2" [formGroup]="statisticalForm" (submit)="renderStatistical()">
+      <div class="row">
+        <select name="" id="" class="form-control" formControlName="type">
+          <option value="book" class="form-control">Thông kê sách bán chạy</option>
+          <option value="customer">Thông kê top khách hàng</option>
+        </select>
+      </div>
+      <div class="row" *ngIf="statisticalForm.value.type == 'book'">
+        <select class="form-control" formControlName="time">
+          <option value="week">Theo tuần</option>
+          <option value="month">Theo tháng</option>
+          <option value="year">Theo năm</option>
+        </select>
+      </div>
+      <div class="row">
+        <button class="btn btn-success" type="submit">Thống kê</button>
+      </div>
+    </form>
+    <div class="col-10">
+      <canvas id="myChart"></canvas>
+    </div>
+  </div>
+</div>

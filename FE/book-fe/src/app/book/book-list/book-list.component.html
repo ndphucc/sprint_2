@@ -32,6 +32,11 @@
   <div class="row d-flex justify-content-center pt-4">
     <div class="col-3 text-center bg-h1 rounded-pill " style="padding: 15px">{{bookType.name| uppercase}}</div>
   </div>
+  <div class="row ps-5">
+    <div class="col-2" *ngIf="role && role[0]=='ROLE_ADMIN'">
+      <button class="btn btn-success" routerLink="/books/create">Thêm mới</button>
+    </div>
+  </div>
   <ng-container *ngIf="books.length>0">
     <div class="row">
       <div class="col-12" style="position: relative">
@@ -50,7 +55,7 @@
                       <li>Kích thước: {{item.size}}</li>
                       <li>Ngày phát hành: {{item.releaseDate}}</li>
                     </ul>
-                    <div class="price">{{item.price| currency:' '}}đ</div>
+                    <div class="price">{{item.price| currency:'':'':'3.0'}}đ</div>
                     <div class="row d-flex justify-content-center">
                       <div class="col-10">
                         <button (click)="addCard(item)" data-bs-toggle="modal" data-bs-target="#listModal"
@@ -63,13 +68,24 @@
                         <button class="btn btn-success w-100" (click)="buyBook(item)">Mua ngay</button>
                       </div>
                     </div>
+                    <div class="row d-flex justify-content-center mt-1">
+                      <div class="col-10" *ngIf="role && role[0]=='ROLE_ADMIN'">
+                        <button class="btn btn-success w-100" [routerLink]="['/book/edit/'+item.id]">Chỉnh sửa</button>
+                      </div>
+                    </div>
+                    <div class="row d-flex justify-content-center mt-1">
+                      <div class="col-10" *ngIf="role && role[0]=='ROLE_ADMIN'">
+                        <button (click)="renderDelete(item)" class="btn btn-success w-100" data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">Xóa
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </ng-container>
             <div class="row" style="width: 100%;position: absolute;top: -41px;left: 3px;padding: 0 40px;z-index: -1">
-              <img
-                src="../../../assets/book_bg.png"></div>
+              <img src="../../../assets/book_bg.png"></div>
           </div>
         </ng-container>
       </div>
@@ -119,7 +135,7 @@
           <tr *ngFor="let item of cart,index as i">
             <th scope="row">{{i + 1}}</th>
             <td>{{item.book.name}}</td>
-            <td>{{item.book.price| currency:' '}}đ</td>
+            <td>{{item.book.price| currency:'':'':'3.0'}}đ</td>
             <td>
               <table>
                 <tr>
@@ -145,7 +161,7 @@
           </tr>
           <tr *ngIf="!cart || cart.length>0">
             <td colspan="3" class="text-end">Tổng tiền:</td>
-            <td colspan="2" style="color: #dc3545;font-weight: bold">{{totalMoney | currency:' '}}đ</td>
+            <td colspan="2" style="color: #dc3545;font-weight: bold">{{totalMoney | currency:'':'':'3.0'}}đ</td>
           </tr>
           </tbody>
         </table>
@@ -185,7 +201,7 @@
             </tr>
             <tr>
               <td>Họ và tên</td>
-              <td><input [value]="user.name" disabled type="text" class="form-control"></td>
+              <td *ngIf="user"><input [value]="user.name" disabled type="text" class="form-control"></td>
             </tr>
             <tr>
               <td>Số điện thoại</td>
@@ -193,7 +209,7 @@
             </tr>
             <tr>
               <td>Email</td>
-              <td><input disabled [value]="user.email" type="text" class="form-control"></td>
+              <td *ngIf="user"><input disabled [value]="user.email" type="text" class="form-control"></td>
             </tr>
             <tr>
               <td>Ghi chú</td>
@@ -205,7 +221,7 @@
             </tr>
             <tr>
               <td>Tổng tiền</td>
-              <td style="color: red">{{total | currency:' ' }}đ</td>
+              <td style="color: red">{{total | currency:'':'':'3.0' }}đ</td>
             </tr>
             <tr>
               <td colspan="2">
@@ -216,7 +232,35 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary d-none" data-bs-dismiss="modal" id="closePaypal-list">Close</button>
+        <button type="button" class="btn btn-secondary d-none" data-bs-dismiss="modal" id="closePaypal-list">Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Bạn chắc chắc muốn xóa</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <table cellpadding="10px">
+          <tr>
+            <th>
+              Tên  :
+            </th>
+            <td>
+              {{bookDelete.name}}
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal" (click)="delete()">Xóa</button>
       </div>
     </div>
   </div>

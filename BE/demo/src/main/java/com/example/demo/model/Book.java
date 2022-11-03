@@ -12,6 +12,7 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private String code;
     private String author;
     private String publishingCompany;
     private int totalPage;
@@ -20,6 +21,8 @@ public class Book {
     private double price;
     private LocalDate releaseDate;
     private String img;
+
+    private boolean statusDelete = true;
     @ManyToOne
     @JoinColumn(name = "type", referencedColumnName = "id")
     private TypeBook typeBook;
@@ -28,6 +31,22 @@ public class Book {
     private Set<BookBill> bookBill;
 
     public Book() {
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public boolean isStatusDelete() {
+        return statusDelete;
+    }
+
+    public void setStatusDelete(boolean statusDelete) {
+        this.statusDelete = statusDelete;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getImg() {

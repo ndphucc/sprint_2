@@ -1,4 +1,19 @@
 
-ž
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(öÄãº8¸Úµú¼0
-T	java:S106	"9Replace this use of System.out or System.err by a logger.(ƒÚáB8¼ÓÆÏ¼0
+2
+java:S1643"Use a StringBuilder instead.(Îñ¨Ì
+9
+java:S1643"Use a StringBuilder instead.(²„üï8Á™½°À0
+T
+java:S2589
+"7Remove this expression which always evaluates to "true"(«¦¥Ñ8œ€Ã†Ã0
+=
+java:S2129" Remove this "String" constructor(ß‰õ†8«€Ã†Ã0
+E
+java:S2201"(The return value of "trim" must be used.(¸ˆ£À8«€Ã†Ã0
+T	java:S106"9Replace this use of System.out or System.err by a logger.(áŠ¡P8»€Ã†Ã0
+M
+java:S1128"1Remove this unused import 'java.util.LinkedList'.(»Äð18»€Ã†Ã0
+M
+java:S1128"+Remove this unused import 'java.util.List'.(Õë±Äøÿÿÿÿ8»€Ã†Ã0
+O
+java:S1128"-Remove this unused import 'java.util.Locale'.(åð×±ûÿÿÿÿ8»€Ã†Ã0

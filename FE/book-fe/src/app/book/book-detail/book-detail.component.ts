@@ -127,7 +127,6 @@ export class BookDetailComponent implements OnInit {
   }
 
   buyBook() {
-    debugger;
     document.getElementById('myPaypalButtonslist').innerHTML = '';
     this.total = this.book.price;
     render({
@@ -143,6 +142,11 @@ export class BookDetailComponent implements OnInit {
         };
         this.billDetailService.save(billDetail).subscribe(value => {
             document.getElementById('closePaypal-list').click();
+            this.form = new FormGroup({
+              phone: new FormControl(),
+              address: new FormControl(),
+              note: new FormControl()
+            });
           }
         );
       }

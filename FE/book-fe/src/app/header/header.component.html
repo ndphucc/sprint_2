@@ -11,12 +11,12 @@
         </tr>
       </table>
       <table class="col-2 text-center">
-        <ng-container *ngIf="user">
-          <tr class="color-green" *ngIf="!user.name">
+        <ng-container>
+          <tr class="color-green" *ngIf="!user">
             <td style="border-right: #476600 solid" routerLink="/register">Đăng ký</td>
             <td routerLink="/login">Đăng nhập</td>
           </tr>
-          <tr class="color-green" *ngIf="user.name">
+          <tr class="color-green" *ngIf="user && user.name">
             <td style="border-right: #476600 solid">{{user.name}}</td>
             <td (click)="logout()">Thoát</td>
           </tr>
@@ -61,9 +61,10 @@
                 class="text-uppercase">{{item.name}}</li>
           </ul>
         </li>
-        <li [routerLink]="'book/top'">SÁCH BÁN CHẠY</li>
-        <li>CHƯƠNG TRÌNH KHUYẾN MÃI</li>
-        <li>GIẢM GIÁ ĐẶC BIỆT</li>
+        <li (click)="changeComponent('book/top')">SÁCH BÁN CHẠY</li>
+<!--        <li>CHƯƠNG TRÌNH KHUYẾN MÃI</li>-->
+<!--        <li>GIẢM GIÁ ĐẶC BIỆT</li>-->
+        <li *ngIf="role == 'ROLE_ADMIN'" (click)="changeComponent('/statistical')">THỐNG KÊ</li>
       </ul>
     </div>
   </div>
@@ -160,7 +161,7 @@
             </tr>
             <tr>
               <td>Họ và tên</td>
-              <td><input [value]="user.name" disabled type="text" class="form-control"></td>
+              <td><input [value]="user?user.name:''" disabled type="text" class="form-control"></td>
             </tr>
             <tr>
               <td>Số điện thoại</td>
@@ -168,7 +169,7 @@
             </tr>
             <tr>
               <td>Email</td>
-              <td><input disabled [value]="user.email" type="text" class="form-control"></td>
+              <td><input disabled [value]="user?user.email:'  '" type="text" class="form-control"></td>
             </tr>
             <tr>
               <td>Ghi chú</td>

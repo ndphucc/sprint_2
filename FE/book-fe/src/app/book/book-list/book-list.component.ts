@@ -14,6 +14,7 @@ import {BillDetail} from '../../model/bill-detail';
 import {BillDetailService} from '../../service/bill-detail.service';
 import {SecurityService} from '../../service/security.service';
 import {ToastrService} from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-book-list',
@@ -36,6 +37,8 @@ export class BookListComponent implements OnInit {
   });
   paypal: RenderParams = {};
   total = 0;
+  role: string[] = [];
+  bookDelete: Book = {};
 
   constructor(private activeRouter: ActivatedRoute, private bookService: BookService,
               private bookTypeService: BookTypeService, private cartService: CartService,
@@ -51,6 +54,10 @@ export class BookListComponent implements OnInit {
     this.securityService.currentUser.subscribe(message => this.user = message);
     this.page = 0;
     this.getList();
+    if (this.tokenStorageService.getUser() !== null) {
+      this.role = this.tokenStorageService.getUser().roles;
+    }
+    console.log(this.role);
   }
 
   addCard(item: Book) {
@@ -183,11 +190,28 @@ export class BookListComponent implements OnInit {
           book
         };
         this.billDetailService.save(billDetail).subscribe(value => {
+            this.form = new FormGroup({
+              phone: new FormControl(),
+              address: new FormControl(),
+              note: new FormControl()
+            });
+            Swal.fire('Thông Báo !!', 'Thanh toán thành công', 'success').then();
             document.getElementById('closePaypal-list').click();
           }
         );
       }
     });
     document.getElementById('show-modal-paypal').click();
+  }
+
+  delete() {
+    this.bookService.delete(this.bookDelete.id).subscribe(next => {
+      this.getList();
+      Swal.fire('Thông Báo !!', 'Xóa Thành Công', 'success').then();
+    });
+  }
+
+  renderDelete(item: Book) {
+    this.bookDelete = item;
   }
 }

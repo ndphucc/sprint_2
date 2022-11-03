@@ -29,12 +29,11 @@
   font-weight: bold;
   text-transform: uppercase;
   background-color: #0f703d;
-  height: 30px;
-  padding: 16px 5px;
+  padding: 10px 5px 3px 5px;
   line-height: 14px;
 }
 .popup .content{
-  background: url("../../../assets/bg.png") repeat-x scroll 50% 0 rgba(0,0,0,0);
+  background: url("../../../assets/bg.png") repeat-y scroll 50% 0 rgba(0,0,0,0);
   color: #434343;
   line-height: 16px;
   overflow: hidden;
@@ -67,4 +66,5 @@
   width: 1000px;
   height: 240px;
 }
+
 
