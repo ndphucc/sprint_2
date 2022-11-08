@@ -32,6 +32,8 @@ import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {environment} from '../environments/environment';
 import {StatisticalModule} from './statistical/statistical.module';
+import {FacebookLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from 'angularx-social-login';
+import { TestComponent } from './test/test.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,7 @@ import {StatisticalModule} from './statistical/statistical.module';
     HeaderComponent,
     FooterComponent,
     BodyComponent,
-
+    TestComponent,
   ],
     imports: [
       BrowserModule,
@@ -68,10 +70,23 @@ import {StatisticalModule} from './statistical/statistical.module';
       MatCheckboxModule,
       AngularFireModule.initializeApp(environment.firebaseConfig),
       AngularFirestoreModule,
-      StatisticalModule
+      StatisticalModule,
+      SocialLoginModule,
     ],
   providers: [
-    AngularFireStorage
+    AngularFireStorage,
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('875412686947280'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
   ],
   bootstrap: [
     AppComponent]

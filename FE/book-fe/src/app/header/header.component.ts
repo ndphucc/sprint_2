@@ -63,6 +63,7 @@ export class HeaderComponent implements OnInit {
   }
 
   changeComponent(link: string) {
+    this.loadHeader();
     console.log(link);
     this.router.navigateByUrl(link);
   }
@@ -123,6 +124,7 @@ export class HeaderComponent implements OnInit {
     localStorage.clear();
     this.user = undefined;
     this.securityService.changeUser(undefined);
+    this.role = null;
     this.loadHeader();
     this.router.navigateByUrl('');
   }

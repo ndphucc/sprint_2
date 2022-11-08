@@ -29,25 +29,25 @@
           <span>Chưa có tài khoản? Hãy </span>
           <button class="btn btn-success" routerLink="/register">Đăng ký</button>
           <span> hoặc </span>
-          <button class="btn btn-primary">Đăng ký qua Facebook</button>
+          <button class="btn btn-primary" (click)="signInWithFB()">Đăng ký qua Facebook</button>
         </div>
       </div>
     </form>
     <div class="row pt-3 border">
-<!--      <form class="row pt-3 border">-->
-        <h3>Quên mật khẩu</h3>
-        <div class="row pt-3">
-          <label>Email</label>
-          <div class="col-4">
-            <input class="form-control">
-          </div>
+      <!--      <form class="row pt-3 border">-->
+      <h3>Quên mật khẩu</h3>
+      <div class="row pt-3">
+        <label>Email</label>
+        <div class="col-4">
+          <input class="form-control">
         </div>
-        <div class="row pt-3">
-          <div class="col-4">
-            <button class="btn btn-success">Tìm lại mật khẩu</button>
-          </div>
+      </div>
+      <div class="row pt-3">
+        <div class="col-4">
+          <button class="btn btn-success">Tìm lại mật khẩu</button>
         </div>
-<!--      </form>-->
+      </div>
+      <!--      </form>-->
     </div>
   </div>
 </div>

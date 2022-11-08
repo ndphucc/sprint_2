@@ -10,6 +10,8 @@ import {CartService} from '../../service/cart.service';
 import {Cart} from '../../model/cart';
 import {User} from '../../model/User';
 import {SecurityService} from '../../service/security.service';
+import {FacebookLoginProvider, SocialAuthService, SocialUser} from 'angularx-social-login';
+
 
 @Component({
   selector: 'app-login',
@@ -23,6 +25,8 @@ export class LoginComponent implements OnInit {
   returnUrl: string;
   cart: Cart[] = [];
   user: User = {};
+  socialUser!: SocialUser;
+  isLoggedin?: boolean = undefined;
 
   constructor(private formBuild: FormBuilder,
               private tokenStorageService: TokenStorageService,
@@ -33,10 +37,26 @@ export class LoginComponent implements OnInit {
               private shareService: ShareService,
               private cookieService: CookieService,
               private cartService: CartService,
-              private securityService: SecurityService) {
+              private securityService: SecurityService,
+              private formBuilder: FormBuilder,
+              private readonly socialAuthService: SocialAuthService) {
+
   }
 
   ngOnInit(): void {
+    // this.loginForm = this.formBuilder.group({
+    //   email: ['', Validators.required],
+    //   password: ['', Validators.required],
+    // });
+    this.socialAuthService.signOut();
+    this.cookieService.deleteAll();
+    this.socialAuthService.authState.subscribe((user) => {
+      this.socialUser = user;
+      console.log(this.socialUser);
+      this.isLoggedin = user != null;
+    }, (error) => {
+      console.log(error);
+    });
     this.securityService.currentUser.subscribe(message => this.user = message);
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '';
     this.formGroup = this.formBuild.group({
@@ -83,4 +103,12 @@ export class LoginComponent implements OnInit {
       });
     });
   }
+
+  signInWithFB(): void {
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
 }
+
+
+
+
